@@ -1,1 +1,99 @@
-slide show is live
+<html>
+    <head>
+        <link rel="stylesheet" href="owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="animate.css" type="text/css">
+        <style>
+            body {
+                background-color: black;
+                font-family: sans-serif;
+                margin: 0;
+                padding: 0;
+                height:100%;                
+            }
+
+            .imageWrapper{
+                overflow: hidden;
+                position: relative;
+                height:100%;
+                width:100%;
+            }
+
+            .img {
+                height:100% !important;
+                width:auto !important;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+            }
+            
+            .img.scaleByWidth{
+                width: 100% !important;
+                height:auto !important;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="owl-carousel">
+            <div class="imageWrapper"> 
+                <img class="img" src="media/slide1.jpg" />
+            </div>
+            <div class="imageWrapper"> 
+                <img class="img" src="media/slide2.jpg" />
+            </div>
+            <div class="imageWrapper"> 
+                <img class="img" src="media/slide3.jpg" />
+            </div>
+            <div class="imageWrapper"> 
+                <img class="img" src="media/slide4.jpg" />
+            </div>
+        </div>
+
+        <script src="jquery-2.2.4.min.js"></script>
+        <script src="owl.carousel.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                fit();
+
+                $('.owl-carousel').owlCarousel({
+                    autoplay : true,
+                    items : 1,
+                    animateIn: 'fadeIn',
+                    autoplayTimeout: 10000,
+                    loop: true
+                });
+
+            });
+
+            function fit(){
+                var img = $('.img'),
+                    win = $(window),
+                    windowRatio = win.outerHeight() / win.outerWidth(),
+                    imageRatio = img[0].naturalHeight / img[0].naturalWidth;
+
+                img.toggleClass('scaleByWidth', windowRatio < imageRatio);
+            }
+            
+            $(window).resize(function(){
+                fit();
+            });
+
+            setInterval(function(){
+                $.ajax({
+                    url : '/getVersion',
+                    success : function(reply){
+                        if (!reply.hash)
+                            return;
+                        var lastHash = localStorage.getItem('hash');
+                        if (lastHash !== reply.hash){
+                            localStorage.setItem('hash', reply.hash)
+                            window.location = window.location;
+                        }
+                    }
+                })    
+            }, 5000);
+
+        </script>
+    </body>
+</html>
