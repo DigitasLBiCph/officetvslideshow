@@ -109,7 +109,7 @@
                             }
                         },
                         error : function(err){
-                            localConsole.prepend(new Date() + ' error ' + err + ' <br />');
+                            localConsole.prepend(new Date() + ' error ' + JSON.stringify(err) + ' <br />');
                         }
                     })
                 }, 5000);
