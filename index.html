@@ -2,20 +2,40 @@
     <head>
         <link rel="stylesheet" href="animate.css" type="text/css">
         <style>
+            @font-face {
+              font-family: 'Ultra';
+              src: url('media/Ultra-Regular.ttf')  format('truetype')
+            }
+
             body {
-                font-family: sans serif;
+                background-color: #e93e37;
+                color: white;
+                font-family: 'Ultra', sans-serif;
+                font-size: 3em;
                 overflow: hidden;
+                padding: 0 50px;
             }
 
             .stage {
-                display: none;
+                opacity: 0;
+            }
+
+            .stage > div, .canvas > div {
+                padding: 50px 50px;
             }
 
             .canvas{
                 text-align: center;
                 position: absolute;
-                bottom: 0;
+                bottom: 1px;
                 width: 100%;
+                left: 0;
+                right: 0;
+            }
+
+            .hide {
+                transition: opacity 2s ease-in-out;
+                opacity: 0;
             }
 
         </style>
@@ -26,20 +46,33 @@
         </div>
 
         <div class="stage">
-
-            <div class="hello">Hello</div>
-            <div class="name">I am an element</div>
-            <div class="name2">I am a second element</div>
+            <div class="start"><br><br><br><br><br><br><br><br><br><br><br><br></div>
+            <div class="unicorn"><img src="/media/unicorn.png" /></div>
+            <div class="hello">We are Digitas Lbi, and this is our story</div>
+            <div class="name">Once up a time</div>
+            <div class="name3"> ... and then ... </div>
+            <div class="name4">also</div>
+            <div class="name5">The thing is</div>
+            <div class="name6">You know</div>
         </div>
 
         <script src="jquery-2.2.4.min.js"></script>
         <script src="kiosk.js"></script>
         <script>
             $(document).ready(function(){
+                var canvas = $('.canvas');
+                canvas.css('top', $('body')[0].clientHeight );
+
+
                 animateIn(
-                    ['.hello', 'slideInLeft', 3000],
-                    ['.name', 'slideInRight', 1000],
-                    ['.name2', 'rollIn', 1000]
+                    ['in', '.start', 'fadeIn', 1000],
+                    ['in', '.unicorn', 'flipInX', 2000],
+                    ['in', '.hello', 'fadeIn', 2000],
+                    ['in','.name', 'fadeIn', 2000],
+                    ['in','.name3', 'fadeIn', 2000],
+                    ['in','.name4', 'fadeIn', 2000],
+                    ['in','.name5', 'fadeIn', 2000],
+                    ['in','.name6', 'fadeIn', 2000]
                 );
 
                 function animateIn(){
@@ -53,26 +86,45 @@
                         var arg = args[position];
                         position ++;
 
-                        var selector = arg[0],
-                            effect = arg[1],
-                            delay = arg[2];
+                        var direction = arg[0],
+                            selector = arg[1],
+                            effect = arg[2],
+                            delay = arg[3];
 
-                        animateItem(selector, effect, delay);
+                        animateItem(direction, selector, effect, delay);
                     }
 
-                    function animateItem(selector, effect, delay){
-                        var element = $(selector);
-                        element.detach();
-                        element.addClass('animated ' + effect);
-                        $('.canvas').append(element);
 
-                        if (delay === undefined){
+
+                    function animateItem(direction, selector, effect, delay){
+                        var element = $(selector);
+
+                        if (direction === 'in'){
+                            var height = element[0].clientHeight;
+                            canvas.animate({ top : '-=' + height }, function () {
+                                then();
+                            });
+                        } else{
+                            element.addClass('hide');
                             processNext();
-                        } else {
-                            setTimeout(function(){
-                                processNext();
-                            }, delay);
                         }
+
+                        function then(remove){
+                            element.detach();
+                            element.addClass('animated ' + effect);
+                            canvas.append(element);
+
+                            if (delay === undefined){
+                                element.removeClass('animated ' + effect);
+                                processNext();
+                            } else {
+                                setTimeout(function(){
+                                    element.removeClass('animated ' + effect);
+                                    processNext();
+                                }, delay);
+                            }
+                        }
+
                     }
 
                     processNext();
