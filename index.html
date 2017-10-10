@@ -70,9 +70,10 @@
 
         <script src="jquery-2.2.4.min.js"></script>
         <script src="owl.carousel.min.js"></script>
+        <script src="kiosk.js"></script>
+
         <script>
             $(document).ready(function(){
-                var localConsole = $('.console');
                 fit();
 
                 $('.owl-carousel').owlCarousel({
@@ -96,32 +97,7 @@
                     fit();
                 });
 
-                setInterval(function(){
-                    $.ajax({
-                        url : '/getVersion',
-                        success : function(reply){
-                            localConsole.prepend(new Date() + ' version queried  <br />');
-                            if (!reply.hash)
-                                return;
-                            var lastHash = localStorage.getItem('hash');
-                            if (lastHash !== reply.hash){
-                                localConsole.prepend(' version changed, reloading <br />');
-                                localStorage.setItem('hash', reply.hash);
-                                window.location = window.location;
-                            }
-                        },
-                        error : function(err){
-                            localConsole.prepend(new Date() + ' error ' + JSON.stringify(err) + ' <br />');
-                        }
-                    })
-                }, 5000);
-
             });
-
-
-
-
-
         </script>
     </body>
 </html>
