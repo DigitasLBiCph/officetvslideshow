@@ -29,6 +29,7 @@
 
             <div class="hello">Hello</div>
             <div class="name">I am an element</div>
+            <div class="name2">I am a second element</div>
         </div>
 
         <script src="jquery-2.2.4.min.js"></script>
@@ -37,7 +38,8 @@
             $(document).ready(function(){
                 animateIn(
                     ['.hello', 'slideInLeft', 3000],
-                    ['.name', 'slideInRight', 1000]
+                    ['.name', 'slideInRight', 1000],
+                    ['.name2', 'rollIn', 1000]
                 );
 
                 function animateIn(){
