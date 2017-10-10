@@ -6,7 +6,10 @@
 * Requires : jquery.
 */
 $(document).ready(function(){
-    var localConsole = $('.console');
+    var localConsole = $('<div class="console"></div>');
+    localConsole.hide();
+
+    $('body').prepend(localConsole);
 
     setInterval(function(){
         $.ajax({

@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="animate.css" type="text/css">
+        <style>
+            body {
+                background-color: black;
+                font-family: sans-serif;
+                margin: 0;
+                padding: 0;
+                height:100%;
+                position: relative;
+            }
+
+            .console{
+                position:absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                color: red;
+                font-size: 18px;
+                z-index: 10;
+
+                display: none;
+            }
+
+            .imageWrapper{
+                overflow: hidden;
+                position: relative;
+                height:100%;
+                width:100%;
+            }
+
+            .img {
+                height:100% !important;
+                width:auto !important;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+            }
+            
+            .img.scaleByWidth{
+                width: 100% !important;
+                height:auto !important;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="console"></div>
+        <div class="owl-carousel">
+            <div class="imageWrapper"> 
+                <img class="img" src="media/trelleborg.jpg" />
+            </div>
+            <div class="imageWrapper"> 
+                <img class="img" src="media/toms.jpg" />
+            </div>
+            <div class="imageWrapper"> 
+                <img class="img" src="media/parkinn.jpg" />
+            </div>
+            <div class="imageWrapper"> 
+                <img class="img" src="media/radisson.jpg" />
+            </div>
+            <div class="imageWrapper">
+                <img class="img" src="media/digitaslbi.jpg" />
+            </div>
+        </div>
+
+        <script src="jquery-2.2.4.min.js"></script>
+        <script src="owl.carousel.min.js"></script>
+        <script src="kiosk.js"></script>
+
+        <script>
+            $(document).ready(function(){
+                fit();
+
+                $('.owl-carousel').owlCarousel({
+                    autoplay : true,
+                    items : 1,
+                    animateIn: 'fadeIn',
+                    autoplayTimeout: 10000,
+                    loop: true
+                });
+
+                function fit(){
+                    var img = $('.img'),
+                        win = $(window),
+                        windowRatio = win.outerHeight() / win.outerWidth(),
+                        imageRatio = img[0].naturalHeight / img[0].naturalWidth;
+
+                    img.toggleClass('scaleByWidth', windowRatio < imageRatio);
+                }
+
+                $(window).resize(function(){
+                    fit();
+                });
+
+            });
+        </script>
+    </body>
+</html>
